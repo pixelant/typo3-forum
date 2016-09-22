@@ -1,0 +1,102 @@
+diff --git a/Classes/Domain/Model/Forum/Attachment.php b/Classes/Domain/Model/Forum/Attachment.php
+index 2e961e9..5c51078 100644
+--- a/Classes/Domain/Model/Forum/Attachment.php
++++ b/Classes/Domain/Model/Forum/Attachment.php
+@@ -76,7 +76,10 @@ class Attachment extends AbstractEntity {
+ 	 * Injects an instance of the \TYPO3\CMS\Extbase\Service\TypoScriptService.
+ 	 */
+ 	public function initializeObject() {
+-		$ts = $this->typoScriptService->convertTypoScriptArrayToPlainArray(\TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager::getTypoScriptSetup());
++		$tsSetup = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Extbase\Object\ObjectManager")
++			->get("TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager")
++			->getTypoScriptSetup();
++		$ts = $this->typoScriptService->convertTypoScriptArrayToPlainArray($tsSetup);
+ 		$this->settings = $ts['plugin']['tx_typo3forum']['settings'];
+ 	}
+ 
+diff --git a/Classes/Service/AttachmentService.php b/Classes/Service/AttachmentService.php
+index 306e771..e88c138 100644
+--- a/Classes/Service/AttachmentService.php
++++ b/Classes/Service/AttachmentService.php
+@@ -24,18 +24,21 @@ class AttachmentService implements SingletonInterface {
+ 		$objAttachments = new ObjectStorage();
+ 
+ 		foreach($attachments as $attachmentID => $attachment) {
+-			if($attachment['name'] == '') continue;
++
++			if($attachment == '') continue;
+ 			$attachmentObj = $this->objectManager->get('Mittwald\\Typo3Forum\\Domain\\Model\\Forum\\Attachment');
++
+ 			$tmp_name = $_FILES['tx_typo3forum_pi1']['tmp_name']['attachments'][$attachmentID];
+ 			$mime_type = mime_content_type($tmp_name);
+ 
+ 			//Save in ObjectStorage and in file system
+ 			$attachmentObj->setFilename($attachment['name']);
+ 			$attachmentObj->setRealFilename(sha1($attachment['name'].time()));
+-			$attachmentObj->setMimeType($mime_type);
++			$attachmentObj->setMimeType($mime_type);q
+ 
+ 			//Create dir if not exists
+ 			$tca = $attachmentObj->getTCAConfig();
++
+ 			$path = $tca['columns']['real_filename']['config']['uploadfolder'];
+ 			if(!file_exists($path)) {
+ 				mkdir($path,'0777',true);
+diff --git a/Resources/Private/Partials/Standard/Post/Form.html b/Resources/Private/Partials/Standard/Post/Form.html
+index 138b861..05205ba 100644
+--- a/Resources/Private/Partials/Standard/Post/Form.html
++++ b/Resources/Private/Partials/Standard/Post/Form.html
+@@ -1,6 +1,6 @@
+ {namespace mmf=Mittwald\Typo3Forum\ViewHelpers}
+ {namespace b=Mittwald\Typo3Forum\ViewHelpers\Bootstrap}
+-<f:form name="post" object="{post}" controller="Post" action="{action}" id="post">
++<f:form name="post" object="{post}" controller="Post" action="{action}" id="post" enctype="multipart/form-data">
+     <fieldset>
+         <legend>
+             <f:if condition="{post.uid}">
+@@ -26,7 +26,7 @@
+             <mmf:form.bbCodeEditor property="text" id="typo3forum_editor" rows="20" cols="40"
+                                    class="tx-typo3forum-editor span8"/>
+         </b:form.row>
+-        <mmf:authentication.ifAccess object="{topic}" accessType="newAttachment">
++
+             <b:form.row llLabel="Post_New_Attachments">
+                 <f:if condition="{post.attachments}">
+                     <f:for each="{post.attachments}" as="attachment">
+@@ -36,9 +36,9 @@
+                         </div>
+                     </f:for>
+                 </f:if>
+-                <f:form.upload name="attachments[]"/>
++                <f:form.upload name="attachments" multiple="multiple" />
+             </b:form.row>
+-        </mmf:authentication.ifAccess>
++
+         <div>
+             <f:form.hidden name="topic" value="{topic}"/>
+             <f:form.submit value="{f:translate(key: 'Post_New_Submit')}"/>
+diff --git a/Resources/Private/Templates/Standard/Topic/New.html b/Resources/Private/Templates/Standard/Topic/New.html
+index 01b1ed4..5a25834 100644
+--- a/Resources/Private/Templates/Standard/Topic/New.html
++++ b/Resources/Private/Templates/Standard/Topic/New.html
+@@ -27,7 +27,7 @@
+ 			<b:form.row llLabel="Topic_New_Text" error="post.text" errorLLPrefix="Topic_New_Error_Post_Text">
+ 				<mmf:form.bbCodeEditor property="text" id="typo3forum_editor" rows="20" cols="40" />
+ 			</b:form.row>
+-			<mmf:authentication.ifAccess object="{forum}" accessType="newAttachment">
++
+ 				<b:form.row llLabel="Topic_New_Attachments">
+ 					<f:if condition="{post.attachments}">
+ 						<f:for each="{post.attachments}" as="attachment">
+@@ -37,9 +37,9 @@
+ 							</div>
+ 						</f:for>
+ 					</f:if>
+-					<f:form.upload name="attachments[]"/>
++					<f:form.upload property="attachments" multiple="multiple" />
+ 				</b:form.row>
+-			</mmf:authentication.ifAccess>
++
+ 			<b:form.row llLabel="Topic_New_Subscribe">
+ 				<label >
+ 					<f:form.checkbox name="subscribe" value="1"/>

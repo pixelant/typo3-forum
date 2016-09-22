@@ -24,18 +24,21 @@ class AttachmentService implements SingletonInterface {
 		$objAttachments = new ObjectStorage();
 
 		foreach($attachments as $attachmentID => $attachment) {
-			if($attachment['name'] == '') continue;
+
+			if($attachment == '') continue;
 			$attachmentObj = $this->objectManager->get('Mittwald\\Typo3Forum\\Domain\\Model\\Forum\\Attachment');
+
 			$tmp_name = $_FILES['tx_typo3forum_pi1']['tmp_name']['attachments'][$attachmentID];
 			$mime_type = mime_content_type($tmp_name);
 
 			//Save in ObjectStorage and in file system
 			$attachmentObj->setFilename($attachment['name']);
 			$attachmentObj->setRealFilename(sha1($attachment['name'].time()));
-			$attachmentObj->setMimeType($mime_type);
+			$attachmentObj->setMimeType($mime_type);q
 
 			//Create dir if not exists
 			$tca = $attachmentObj->getTCAConfig();
+
 			$path = $tca['columns']['real_filename']['config']['uploadfolder'];
 			if(!file_exists($path)) {
 				mkdir($path,'0777',true);

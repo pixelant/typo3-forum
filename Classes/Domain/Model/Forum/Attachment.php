@@ -76,7 +76,10 @@ class Attachment extends AbstractEntity {
 	 * Injects an instance of the \TYPO3\CMS\Extbase\Service\TypoScriptService.
 	 */
 	public function initializeObject() {
-		$ts = $this->typoScriptService->convertTypoScriptArrayToPlainArray(\TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager::getTypoScriptSetup());
+		$tsSetup = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Extbase\Object\ObjectManager")
+			->get("TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager")
+			->getTypoScriptSetup();
+		$ts = $this->typoScriptService->convertTypoScriptArrayToPlainArray($tsSetup);
 		$this->settings = $ts['plugin']['tx_typo3forum']['settings'];
 	}
 

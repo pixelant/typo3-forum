@@ -27,7 +27,7 @@
 			<b:form.row llLabel="Topic_New_Text" error="post.text" errorLLPrefix="Topic_New_Error_Post_Text">
 				<mmf:form.bbCodeEditor property="text" id="typo3forum_editor" rows="20" cols="40" />
 			</b:form.row>
-			<mmf:authentication.ifAccess object="{forum}" accessType="newAttachment">
+
 				<b:form.row llLabel="Topic_New_Attachments">
 					<f:if condition="{post.attachments}">
 						<f:for each="{post.attachments}" as="attachment">
@@ -37,9 +37,9 @@
 							</div>
 						</f:for>
 					</f:if>
-					<f:form.upload name="attachments[]"/>
+					<f:form.upload property="attachments" multiple="multiple" />
 				</b:form.row>
-			</mmf:authentication.ifAccess>
+
 			<b:form.row llLabel="Topic_New_Subscribe">
 				<label >
 					<f:form.checkbox name="subscribe" value="1"/>
