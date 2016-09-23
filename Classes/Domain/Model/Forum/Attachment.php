@@ -30,7 +30,7 @@ class Attachment extends AbstractEntity {
 
 	/**
 	 * The attachment file name.
-	 * @var Post
+	 * @var \Mittwald\Typo3Forum\Domain\Model\Forum\Post
 	 * @lazy
 	 */
 	protected $post;
@@ -221,4 +221,5 @@ class Attachment extends AbstractEntity {
 	public function increaseDownloadCount() {
 		$this->downloadCount++;
 	}
+
 }

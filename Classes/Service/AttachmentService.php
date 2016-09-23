@@ -25,7 +25,7 @@ class AttachmentService implements SingletonInterface {
 
 		foreach($attachments as $attachmentID => $attachment) {
 
-			if($attachment == '') continue;
+			if($attachment['name'] == '') continue;
 			$attachmentObj = $this->objectManager->get('Mittwald\\Typo3Forum\\Domain\\Model\\Forum\\Attachment');
 
 			$tmp_name = $_FILES['tx_typo3forum_pi1']['tmp_name']['attachments'][$attachmentID];
@@ -34,12 +34,11 @@ class AttachmentService implements SingletonInterface {
 			//Save in ObjectStorage and in file system
 			$attachmentObj->setFilename($attachment['name']);
 			$attachmentObj->setRealFilename(sha1($attachment['name'].time()));
-			$attachmentObj->setMimeType($mime_type);q
+			$attachmentObj->setMimeType($mime_type);
 
 			//Create dir if not exists
-			$tca = $attachmentObj->getTCAConfig();
 
-			$path = $tca['columns']['real_filename']['config']['uploadfolder'];
+			$path = $this->getUploadFilesPath();
 			if(!file_exists($path)) {
 				mkdir($path,'0777',true);
 			}
@@ -51,6 +50,13 @@ class AttachmentService implements SingletonInterface {
 			}
 		}
 		return $objAttachments;
+	}
+
+	protected function getUploadFilesPath() {
+
+		global $TCA;
+
+		return $TCA['tx_typo3forum_domain_model_forum_attachment']['columns']['real_filename']['config']['uploadfolder'];
 	}
 
 }
