@@ -1,7 +1,7 @@
 {namespace mmf=Mittwald\Typo3Forum\ViewHelpers}
 
 <ul>
-    <li>
+    <li class="back-link">
         <f:link.action controller="Forum" action="show" arguments="{forum: topic.forum}">
             <i class="tx-typo3forum-icon-16-back"></i>
             <f:translate key="Button_Back"/>
@@ -9,7 +9,7 @@
     </li>
 
     <mmf:authentication.ifAccess object="{topic}" accessType="newPost">
-        <li>
+        <li class="reply-link">
             <f:link.action controller="Post" action="new" arguments="{topic: topic}">
                 <i class="tx-typo3forum-icon-16-post-new"></i>
                 <f:translate key="Button_Reply"/>

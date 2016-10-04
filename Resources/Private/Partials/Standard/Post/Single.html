@@ -33,7 +33,7 @@
                         <f:for each="{post.attachments}" as="attachment">
 
                             <mmf:general.stringContains needle="{attachment.mimeType}" haystack="{settings.attachment.allowedImageTypes}">
-                                <f:image src="/uploads/tx_typo3forum/attachments/{attachment.realFilename}" alt="alt text" />
+                                <f:image src="/uploads/tx_typo3forum/attachments/{attachment.realFilename}" alt="alt text" class="img-responsive" />
                             </mmf:general.stringContains>
 
                         </f:for>

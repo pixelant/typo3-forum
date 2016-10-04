@@ -1,15 +1,16 @@
 {namespace mmf=Mittwald\Typo3Forum\ViewHelpers}
 
 <ul>
-    <li>
-        <f:if condition="{forum.parent}">
-            <f:then>
+
+    <f:if condition="{forum.parent}">
+        <f:then>
+            <li>
                 <f:link.action controller="Forum" action="show" arguments="{forum: forum.parent}">
                     {f:translate(key:'Button_Back')}
                 </f:link.action>
-            </f:then>
-        </f:if>
-    </li>
+            </li>
+        </f:then>
+    </f:if>
 
     <mmf:authentication.ifAccess object="{forum}" accessType="newTopic">
         <li>

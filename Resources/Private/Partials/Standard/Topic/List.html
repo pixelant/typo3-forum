@@ -61,7 +61,10 @@
 
 <f:section name="regularTopic">
     <td style="width:1px;">
-        <mmf:forum.topicIcon topic="{topic}" width="32"/>
+        &nbsp;
+        <f:comment>
+            <mmf:forum.topicIcon topic="{topic}" width="32"/>
+        </f:comment>
     </td>
     <td>
         <f:link.action controller="Topic" action="show" arguments="{topic: topic}" pageUid="{settings.pids.Forum}">
@@ -79,7 +82,10 @@
 
 <f:section name="shadowTopic">
     <td style="width:1px;">
-        <mmf:forum.topicIcon topic="{topic}" width="32"/>
+        &nbsp;
+        <f:comment>
+            <mmf:forum.topicIcon topic="{topic}" width="32"/>
+        </f:comment>
     </td>
     <td>
         <f:translate key="Forum_Show_Topic_Moved"/>
