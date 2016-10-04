@@ -18,6 +18,7 @@ $EM_CONF[$_EXTKEY] = [
 		'depends' => [
 			'typo3' => '6.2.0-7.6.99',
 			'static_info_tables' => '',
+			'femanager' => '',
 			'php' => '5.4',
 		],
 		'suggests' => [

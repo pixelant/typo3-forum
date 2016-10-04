@@ -37,7 +37,8 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 /**
  * A frontend user.
  */
-class FrontendUser extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser implements AccessibleInterface {
+class FrontendUser extends \In2code\Femanager\Domain\Model\User implements AccessibleInterface {
+
 
 	const GENDER_MALE = 0;
 	const GENDER_FEMALE = 1;
