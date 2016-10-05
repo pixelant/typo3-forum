@@ -10,6 +10,13 @@ config.tx_extbase.objects {
 }
 
 config.tx_extbase.persistence.classes {
+
+    In2code\Femanager\Domain\Model\User {
+        mapping {
+            recordType = Mittwald\Typo3Forum\Domain\Model\User\FrontendUser
+        }
+    }
+
     In2code\Femanager\Domain\Model\User.subclasses {
         Mittwald\Typo3Forum\Domain\Model\User\FrontendUser = Mittwald\Typo3Forum\Domain\Model\User\FrontendUser
     }

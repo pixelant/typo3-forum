@@ -314,7 +314,7 @@ class FrontendUser extends \In2code\Femanager\Domain\Model\User implements Acces
 	/**
 	 * @return array
 	 */
-	protected function getSettings() {
+	public function getSettings() {
 		if ($this->settings === NULL) {
 			$ts = $this->typoScriptService->convertTypoScriptArrayToPlainArray($this->frontendConfigurationManager->getTypoScriptSetup());
 			$this->settings = $ts['plugin']['tx_typo3forum']['settings'];
