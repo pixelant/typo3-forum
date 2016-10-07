@@ -11,18 +11,10 @@ config.tx_extbase.objects {
 
 config.tx_extbase.persistence.classes {
 
-    In2code\Femanager\Domain\Model\User {
-        mapping {
-            recordType = Mittwald\Typo3Forum\Domain\Model\User\FrontendUser
+    Pixelant\CustomGolfBalls\Domain\Model\GolfStoreFrontendUser {
+        subclasses {
+            Mittwald\Typo3Forum\Domain\Model\User\FrontendUser = Mittwald\Typo3Forum\Domain\Model\User\FrontendUser
         }
-    }
-
-    In2code\Femanager\Domain\Model\User.subclasses {
-        Mittwald\Typo3Forum\Domain\Model\User\FrontendUser = Mittwald\Typo3Forum\Domain\Model\User\FrontendUser
-    }
-
-    TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup.subclasses {
-        Mittwald\Typo3Forum\Domain\Model\User\FrontendUserGroup = Mittwald\Typo3Forum\Domain\Model\User\FrontendUserGroup
     }
 
     Mittwald\Typo3Forum\Domain\Model\User\FrontendUser {
@@ -59,6 +51,10 @@ config.tx_extbase.persistence.classes {
                 date_of_birth.mapOnProperty = dateOfBirth
             }
         }
+    }
+
+    TYPO3\CMS\Extbase\Domain\Model\FrontendUserGroup.subclasses {
+        Mittwald\Typo3Forum\Domain\Model\User\FrontendUserGroup = Mittwald\Typo3Forum\Domain\Model\User\FrontendUserGroup
     }
 
     Mittwald\Typo3Forum\Domain\Model\User\FrontendUserGroup {

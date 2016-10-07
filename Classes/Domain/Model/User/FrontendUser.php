@@ -37,7 +37,7 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 /**
  * A frontend user.
  */
-class FrontendUser extends \In2code\Femanager\Domain\Model\User implements AccessibleInterface {
+class FrontendUser extends \Pixelant\CustomGolfBalls\Domain\Model\GolfStoreFrontendUser implements AccessibleInterface {
 
 
 	const GENDER_MALE = 0;
@@ -260,7 +260,7 @@ class FrontendUser extends \In2code\Femanager\Domain\Model\User implements Acces
 	protected $interests;
 
 	/**
-	 * @var int
+	 * @var \DateTime
 	 */
 	protected $dateOfBirth;
 
@@ -490,7 +490,7 @@ class FrontendUser extends \In2code\Femanager\Domain\Model\User implements Acces
 	 * @return int
 	 */
 	public function getAge() {
-		$age = (time() - $this->getDateOfBirth()) / (3600 * 24 * 365);
+		$age = (time() - (int)$this->getDateOfBirth()) / (3600 * 24 * 365);
 
 		return floor($age);
 	}
@@ -501,7 +501,7 @@ class FrontendUser extends \In2code\Femanager\Domain\Model\User implements Acces
 	 * @return int
 	 */
 	public function getDateOfBirth() {
-		return (int)$this->dateOfBirth;
+		return $this->dateOfBirth;
 	}
 
 	/**
