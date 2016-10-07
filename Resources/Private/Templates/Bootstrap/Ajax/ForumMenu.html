@@ -4,7 +4,9 @@
 	<li>
 		<f:if condition="{forum.parent}">
 			<f:then>
-				<f:link.action controller="Forum" action="show" arguments="{forum: forum.parent}">{f:translate(key:'Button_Back')}</f:link.action>
+				<li>
+					<f:link.action controller="Forum" action="show" arguments="{forum: forum.parent}">{f:translate(key:'Button_Back')}</f:link.action>
+				</li>
 			</f:then>
 		</f:if>
 	</li>
