@@ -95,6 +95,8 @@ class PostController extends AbstractController {
 	/**
 	 * @param Post $post
 	 * @return string
+	 *
+	 * @ignorevalidation $post
 	 */
 	public function addSupporterAction(Post $post) {
 		/** @var FrontendUser $currentUser */
@@ -123,6 +125,8 @@ class PostController extends AbstractController {
 	/**
 	 * @param Post $post
 	 * @return string
+	 *
+	 * @ignorevalidation $post
 	 */
 	public function removeSupporterAction(Post $post) {
 		/** @var FrontendUser $currentUser */
@@ -156,6 +160,8 @@ class PostController extends AbstractController {
 	 * @param Post $quote The Quote
 	 * @param int $showForm ShowForm
 	 * @return void
+	 *
+	 * @ignorevalidation $post
 	 */
 	public function showAction(Post $post, Post $quote = NULL, $showForm = 0) {
 		// Assert authentication
@@ -178,12 +184,13 @@ class PostController extends AbstractController {
 	/**
 	 * Displays the form for creating a new post.
 	 *
-	 * @dontvalidate $post
-	 *
 	 * @param Topic $topic The topic in which the new post is to be created.
 	 * @param Post $post The new post.
 	 * @param Post $quote An optional post that will be quoted within the bodytext of the new post.
 	 * @return void
+	 *
+ 	 * @ignorevalidation $topic
+	 * @ignorevalidation $post
 	 */
 	public function newAction(Topic $topic, Post $post = NULL, Post $quote = NULL) {
 		// Assert authorization
@@ -209,6 +216,7 @@ class PostController extends AbstractController {
 	 * @param Post $post The new post.
 	 * @param array $attachments File attachments for the post.
 	 *
+	 * @ignorevalidation $topic
 	 * @validate $post \Mittwald\Typo3Forum\Domain\Validator\Forum\PostValidator
 	 * @validate $attachments \Mittwald\Typo3Forum\Domain\Validator\Forum\AttachmentPlainValidator
 	 */
@@ -249,9 +257,10 @@ class PostController extends AbstractController {
 	/**
 	 * Displays a form for editing a post.
 	 *
-	 * @dontvalidate $post
 	 * @param Post $post The post that is to be edited.
 	 * @return void
+	 *
+	 * @ignorevalidation $post
 	 */
 	public function editAction(Post $post) {
 		if ($post->getAuthor() != $this->authenticationService->getUser() || $post->getTopic()->getLastPost()->getAuthor() != $post->getAuthor()) {

@@ -115,9 +115,8 @@ class Forum extends AbstractEntity implements AccessibleInterface, Subscribeable
 
 	/**
 	 * @var string
-	 * @validate NotEmpty
 	 */
-	protected $title;
+	protected $title = '';
 
 	/**
 	 * Amount of topics in this forum.

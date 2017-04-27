@@ -44,7 +44,14 @@ config.tx_extbase{
                 }
             }
 
-
+            Mittwald\Typo3Forum\Domain\Model\User\FrontendUserGroup {
+                mapping {
+                    tableName = fe_groups
+                }
+                columns {
+                    lockToDomain.mapOnProperty = lockToDomain
+                }
+            }
         }
     }
 }

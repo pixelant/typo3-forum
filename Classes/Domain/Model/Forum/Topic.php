@@ -43,9 +43,8 @@ class Topic extends AbstractEntity implements AccessibleInterface, Subscribeable
 	 * The subject
 	 *
 	 * @var string
-	 * @validate NotEmpty
 	 */
-	protected $subject;
+	protected $subject = '';
 
 	/**
 	 * The posts in this topic.

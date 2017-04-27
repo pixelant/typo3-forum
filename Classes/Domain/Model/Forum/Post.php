@@ -42,9 +42,8 @@ class Post extends AbstractEntity implements AccessibleInterface, NotifiableInte
 	 * The post text.
 	 *
 	 * @var string
-	 * @validate NotEmpty
 	 */
-	protected $text;
+	protected $text = '';
 
 	/**
 	 * The rendered post text (contains raw HTML). This attribute has been

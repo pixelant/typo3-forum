@@ -102,14 +102,20 @@ class TopicController extends AbstractController {
 	 */
 	protected $topicRepository;
 
-	/**
+ 	/**
+	 *
+	 * Initializes all action methods. This method does basic initialization tasks,
+	 * like instantiating required repositories and services.
+	 *
+	 * @return void
 	 *
 	 */
-	public function initializeObject() {
+	public function initializeAction() {
+		parent::initializeAction();
 		$this->databaseConnection = $GLOBALS['TYPO3_DB'];
 	}
 
-    /**
+   /**
      *  Listing Action.
      * @return void
      */
@@ -161,6 +167,8 @@ class TopicController extends AbstractController {
 	 * @param Topic $topic The topic that is to be displayed.
 	 * @param Post $quote An optional post that will be quoted within the bodytext of the new post.
 	 * @param int $showForm ShowForm
+	 *
+	 * @ignorevalidation $topic
 	 */
 	public function showAction(Topic $topic, Post $quote = NULL, $showForm = 0) {
 		$posts = $this->postRepository->findForTopic($topic);
@@ -196,7 +204,8 @@ class TopicController extends AbstractController {
 	 * @param Post $post The first post of the new topic.
 	 * @param string $subject The subject of the new topic
 	 *
-	 * @dontvalidate $post
+	 * @ignorevalidation $forum
+	 * @ignorevalidation $post
 	 */
 	public function newAction(Forum $forum, Post $post = NULL, $subject = NULL) {
 		$this->authenticationService->assertNewTopicAuthorization($forum);
@@ -221,6 +230,7 @@ class TopicController extends AbstractController {
 	 * @param string $tags All defined tags for this topic
 	 * @param string $subscribe The flag if the new topic is subscribed by author
 	 *
+	 * @ignorevalidation $forum
 	 * @validate $post \Mittwald\Typo3Forum\Domain\Validator\Forum\PostValidator
 	 * @validate $attachments \Mittwald\Typo3Forum\Domain\Validator\Forum\AttachmentPlainValidator
 	 * @validate $subject NotEmpty

@@ -62,9 +62,21 @@ class ForumController extends AbstractController {
 	protected $rootForum;
 
 	/**
+	 * @var \Mittwald\Typo3Forum\Domain\Model\Forum\Forum
+	 * @inject
+	 */
+	protected $forum;
+
+	/**
+	 *
+	 * Initializes all action methods. This method does basic initialization tasks,
+	 * like instantiating required repositories and services.
+	 *
+	 * @return void
 	 *
 	 */
 	public function initializeAction() {
+		parent::initializeAction();
 		$this->databaseConnection = $GLOBALS['TYPO3_DB'];
 	}
 
@@ -86,6 +98,8 @@ class ForumController extends AbstractController {
 	 *
 	 * @param Forum $forum The forum that is to be displayed.
 	 * @return void
+	 *
+	 * @ignorevalidation $forum
 	 */
 	public function showAction(Forum $forum) {
 		$topics = $this->topicRepository->findForIndex($forum);
@@ -101,6 +115,8 @@ class ForumController extends AbstractController {
 	 * @param Forum $forum
 	 * @throws NotLoggedInException
 	 * @return void
+	 *
+	 * @ignorevalidation $forum
 	 */
 	public function markReadAction(Forum $forum) {
 		$user = $this->getCurrentUser();
@@ -131,6 +147,8 @@ class ForumController extends AbstractController {
 	 * @param Forum $forum
 	 * @throws NotLoggedInException
 	 * @return void
+	 *
+	 * @ignorevalidation $forum
 	 */
 	public function showUnreadAction(Forum $forum) {
 		$user = $this->getCurrentUser();
